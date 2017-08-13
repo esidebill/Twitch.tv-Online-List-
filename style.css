@@ -6,6 +6,10 @@
 p {
   text-align: left;
 }
+
+button:hover {
+  cursor: pointer;
+}
 .userLogo {
   display: block;
   margin-left: auto;
@@ -25,4 +29,8 @@ p {
 
 #offline_text {
   color:red;
+}
+
+#alert_box {
+  display:none;
 }
