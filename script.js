@@ -4,67 +4,89 @@ $(document).ready(function() {
   function add_streamer() {
     var user_id = $("#user_input").val();
     var twitch_api_user =
-        "https://wind-bow.glitch.me/twitch-api/users/" + user_id;
+      "https://wind-bow.glitch.me/twitch-api/users/" + user_id;
     var twitch_api_stream =
-        "https://wind-bow.glitch.me/twitch-api/streams/" + user_id;
+      "https://wind-bow.glitch.me/twitch-api/streams/" + user_id;
+
     $.getJSON(twitch_api_stream, function(data) {
-      if (data.stream === null) {
+      if ($("#" + user_id).length == 1) {
+        $("#alert_box").html("<button type='button' id='close_button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Whoops!</strong> That streamer's already been added");
+            $("#alert_box").css("display", "block");
+            $("#close_button").on("click", function() {
+    $("#alert_box").css("display", "none");
+              $("#alert_box").html("")
+  });
+        $("#user_input").val("");
+      } else if (data.stream === null) {
         $.getJSON(twitch_api_user, function(data) {
           if (data.error === "Not Found") {
-            $("#display").append(
-              "<div class='jumbotron'>" +
-              "There's no streamer named " +
-              user_id +
-              "<br><button class='btn btn-secondary btn-sm remove2' style='margin-top:15px;'>Remove streamer</button></div>"
-            );
-            $(".remove2").click(function() {
-              $(this).parent().remove();
-            });
+            $("#alert_box").html("<button type='button' id='close_button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Whoops!</strong> No such streamer");
+            $("#alert_box").css("display", "block");
+            $("#close_button").on("click", function() {
+    $("#alert_box").css("display", "none");
+              $("#alert_box").html("")
+  });
+          
+            $("#user_input").val("");
           } else {
+            $("#user_input").val("");
             $("#display").append(
-              "<div class='jumbotron stream_offline'>" +
-              "<div class='row'>" +
-              "<div class='col-sm-4'>" +
-              "<a href='https://www.twitch.tv/" +
-              data.name +
-              "' target='_blank'>" +
-              "<img class='img-fluid rounded-circle userLogo' src='" +
-              data.logo +
-              "'/></a></div>" +
-              "<br>" +
-              "<div class='col-sm-8'><p class='streamerInfo'><strong>" +
-              data.display_name +
-              "</strong>" +
-              "<br>Stream <span id='offline_text'>offline</span></p></div><br><button class='btn btn-secondary btn-sm remove'>Remove streamer</button></div></div>"
+              "<div id='" + user_id + "' style='display:none;'></div>"
             );
+            $("#" + user_id)
+              .append(
+                "<div class='jumbotron stream_offline'>" +
+                  "<div class='row'>" +
+                  "<div class='col-sm-4'>" +
+                  "<a href='https://www.twitch.tv/" +
+                  data.name +
+                  "' target='_blank'>" +
+                  "<img class='img-fluid rounded-circle userLogo circle' alt='' src='" +
+                  data.logo +
+                  "'/></a></div>" +
+                  "<br>" +
+                  "<div class='col-sm-8'><p class='streamerInfo'><strong>" +
+                  data.display_name +
+                  "</strong>" +
+                  "<br>Stream <span id='offline_text'>offline</span></p></div><br><button class='btn btn-secondary btn-sm remove'>Remove streamer</button></div></div>"
+              )
+              .slideDown("slow");
           }
           $(".remove").click(function() {
-            $(this).parent().parent().remove();
+            $(this).slideUp("slow", function() {
+            $(this).parent().parent().parent().remove();
+            });
           });
         });
       } else {
         $.getJSON(twitch_api_stream, function(data) {
-          $("#display").append(
+          $("#user_input").val("");
+$("#display").append(
+              "<div id='" + user_id + "' style='display:none;'></div>"
+            );
+          $("#" + user_id).append(
             "<div class='jumbotron stream_online'>" +
-            "<div class='row'>" +
-            "<div class='col-sm-4'>" +
-            "<a href='https://www.twitch.tv/" +
-            data.stream.channel.name +
-            "'target='_blank'>" +
-            "<img class='img-fluid rounded-circle userLogo' src='" +
-            data.stream.channel.logo +
-            "'/></a></div>" +
-            "<br>" +
-            "<div class='col-sm-8'><p class='streamerInfo'><strong>" +
-            data.stream.channel.display_name +
-            "</strong>" +
-            "<br>Stream <span id='online_text'>online</span>" +
-            "<br>Playing: " +
-            data.stream.game +
-            "</p></div><br><button class='btn btn-secondary btn-sm remove'>Remove streamer</button></div></div>"
-          );
+              "<div class='row'>" +
+              "<div class='col-sm-4'>" +
+              "<a href='https://www.twitch.tv/" +
+              data.stream.channel.name +
+              "'target='_blank'>" +
+              "<img class='img-fluid userLogo rounded-circle' alt='' src='" +
+              data.stream.channel.logo +
+              "'/></a></div>" +
+              "<br>" +
+              "<div class='col-sm-8'><p class='streamerInfo'><strong>" +
+              data.stream.channel.display_name +
+              "</strong>" +
+              "<br>Stream <span id='online_text'>online</span>" +
+              "<br>Playing: " +
+              data.stream.game +
+              "</p></div><br><button class='btn btn-secondary btn-sm remove'>Remove streamer</button></div></div>"
+          ).slideDown("slow");
           $(".remove").click(function() {
-            $(this).parent().parent().remove();
+            $(this).slideUp("slow", function() {
+            $(this).parent().parent().parent().remove();
+            });
           });
         });
       }
@@ -87,5 +109,11 @@ $(document).ready(function() {
   $("#player").on("click", function() {
     add_streamer();
   });
-});
+   
 
+  $(document).bind("keypress", function(e) {
+    if (e.keyCode == 13) {
+      $("#player").trigger("click");
+    }
+  });
+});
