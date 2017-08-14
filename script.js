@@ -2,6 +2,16 @@ $(document).ready(function() {
   $(".dropdown-toggle").dropdown();
 
   //call function to add a new streamer
+  function showError(user_id,message) {
+    $("#alert_box").html(
+    "<button type='button' id='close_button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Whoops!</strong> " + message);
+        $("#alert_box").css("display", "block");
+        $("#close_button").on("click", function() {
+          $("#alert_box").css("display", "none");
+          $("#alert_box").html("");
+        });
+  }
+  
   function add_streamer() {
     //set variables for input bar and APIs
     var user_id = $("#user_input").val();
@@ -14,31 +24,14 @@ $(document).ready(function() {
     $.getJSON(twitch_api_stream, function(data) {
       //if the user entered a streamer that exists an error appears
       if ($("#" + user_id).length == 1) {
-        $("#alert_box").html(
-          "<button type='button' id='close_button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Whoops!</strong> That streamer's already been added"
-        );
-        $("#alert_box").css("display", "block");
-        $("#close_button").on("click", function() {
-          $("#alert_box").css("display", "none");
-          $("#alert_box").html("");
-        });
-        $("#user_input").val("");
+        showError(user_id, "You've already added this streamer");
         //if theres no stream information, the user is offline
       } else if (data.stream === null) {
         //gets JSON info for the offline user
         $.getJSON(twitch_api_user, function(data) {
           //if there is no such user an error appears
           if (data.error === "Not Found") {
-            $("#alert_box").html(
-              "<button type='button' id='close_button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Whoops!</strong> No such streamer"
-            );
-            $("#alert_box").css("display", "block");
-            $("#close_button").on("click", function() {
-              $("#alert_box").css("display", "none");
-              $("#alert_box").html("");
-            });
-
-            $("#user_input").val("");
+            showError(user_id, "No such streamer exists");
             //if it is a valid ID it displays their information in a new div
           } else {
             $("#user_input").val("");
