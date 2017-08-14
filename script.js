@@ -60,14 +60,14 @@ $(document).ready(function() {
                   "<div class='col-sm-8'><p class='streamerInfo'><strong>" +
                   data.display_name +
                   "</strong>" +
-                  "<br>Stream <span id='offline_text'>offline</span></p></div><br><button class='btn btn-secondary btn-sm remove'>Remove streamer</button></div></div>"
+                  "<br>Stream <span id='offline_text'>offline</span></p></div><br><button data-user='" + user_id + "' class='btn btn-secondary btn-sm remove'>Remove streamer</button></div></div>"
               )
               .slideDown("slow");
           }
           //button removes streamer from list
           $(".remove").click(function() {
-            $(this).slideUp("slow", function() {
-              $(this).parent().parent().parent().remove();
+            $("#" + $(this).attr("data-user")).slideUp("slow", function() {
+              this.remove();
             });
           });
         });
@@ -97,13 +97,13 @@ $(document).ready(function() {
                 "<br>Stream <span id='online_text'>online</span>" +
                 "<br>Playing: " +
                 data.stream.game +
-                "</p></div><br><button class='btn btn-secondary btn-sm remove'>Remove streamer</button></div></div>"
+                "</p></div><br><button class='<button data-user='" + user_id + "' class='btn btn-secondary btn-sm remove'>Remove streamer</button>"
             )
             .slideDown("slow");
           //button to remove streamer
           $(".remove").click(function() {
-            $(this).slideUp("slow", function() {
-              $(this).parent().parent().parent().remove();
+            $("#" + $(this).attr("data-user")).slideUp("slow", function() {
+              this.remove();
             });
           });
         });
