@@ -42,11 +42,11 @@ $(document).ready(function() {
             //if it is a valid ID it displays their information in a new div
           } else {
             $("#user_input").val("");
-            $("#display").append(
+            $("#display").prepend(
               "<div id='" + user_id + "' style='display:none;'></div>"
             );
             $("#" + user_id)
-              .append(
+              .prepend(
                 "<div class='jumbotron stream_offline'>" +
                   "<div class='row'>" +
                   "<div class='col-sm-4'>" +
@@ -60,7 +60,9 @@ $(document).ready(function() {
                   "<div class='col-sm-8'><p class='streamerInfo'><strong>" +
                   data.display_name +
                   "</strong>" +
-                  "<br>Stream <span id='offline_text'>offline</span></p></div><br><button data-user='" + user_id + "' class='btn btn-secondary btn-sm remove'>Remove streamer</button></div></div>"
+                  "<br>Stream <span id='offline_text'>offline</span></p></div><br><button data-user='" +
+                  user_id +
+                  "' class='btn btn-secondary btn-sm remove'>Remove streamer</button></div></div>"
               )
               .slideDown("slow");
           }
@@ -76,11 +78,11 @@ $(document).ready(function() {
         $.getJSON(twitch_api_stream, function(data) {
           //adds new div with stream information
           $("#user_input").val("");
-          $("#display").append(
+          $("#display").prepend(
             "<div id='" + user_id + "' style='display:none;'></div>"
           );
           $("#" + user_id)
-            .append(
+            .prepend(
               "<div class='jumbotron stream_online'>" +
                 "<div class='row'>" +
                 "<div class='col-sm-4'>" +
@@ -97,7 +99,9 @@ $(document).ready(function() {
                 "<br>Stream <span id='online_text'>online</span>" +
                 "<br>Playing: " +
                 data.stream.game +
-                "</p></div><br><button data-user='" + user_id + "' class='btn btn-secondary btn-sm remove'>Remove streamer</button></div></div>"
+                "</p></div><br><button data-user='" +
+                user_id +
+                "' class='btn btn-secondary btn-sm remove'>Remove streamer</button></div></div>"
             )
             .slideDown("slow");
           //button to remove streamer
