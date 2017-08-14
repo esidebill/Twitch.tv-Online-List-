@@ -97,7 +97,7 @@ $(document).ready(function() {
                 "<br>Stream <span id='online_text'>online</span>" +
                 "<br>Playing: " +
                 data.stream.game +
-                "</p></div><br><button class='<button data-user='" + user_id + "' class='btn btn-secondary btn-sm remove'>Remove streamer</button>"
+                "</p></div><br><button data-user='" + user_id + "' class='btn btn-secondary btn-sm remove'>Remove streamer</button></div></div>"
             )
             .slideDown("slow");
           //button to remove streamer
