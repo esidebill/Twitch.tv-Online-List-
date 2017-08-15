@@ -7,15 +7,15 @@ button:hover {
   cursor: pointer;
 }
 
-#online_text {
+.online_text {
   color: green;
 }
 
-#offline_text {
+.offline_text {
   color: red;
 }
 
-#alert_box {
+.alert_box {
   display: none;
 }
 
