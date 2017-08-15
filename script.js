@@ -1,18 +1,21 @@
 $(document).ready(function() {
   $(".dropdown-toggle").dropdown();
 
- //function for error display
-  function showError(user_id,message) {
-    $("#alert_box").html(
-    "<button type='button' id='close_button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Whoops!</strong> " + message);
-        $("#alert_box").css("display", "block");
-        $("#close_button").on("click", function() {
-          $("#alert_box").css("display", "none");
-          $("#alert_box").html("");
-        });
+  //function for error display
+  function showError(user_id, message) {
+    const alertBox = $('.alert_box')
+    alertBox.html(
+      "<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Whoops!</strong> " +
+        message
+    );
+    alertBox.css("display", "block");
+    $(".close").on("click", function() {
+     alertBox.css("display", "none");
+      alertBox.html("");
+    });
   }
-  
-   //call function to add a new streamer
+
+  //call function to add a new streamer
   function add_streamer() {
     //set variables for input bar and APIs
     var user_id = $("#user_input").val();
@@ -54,7 +57,7 @@ $(document).ready(function() {
                   "<div class='col-sm-8'><p class='streamerInfo'><strong>" +
                   data.display_name +
                   "</strong>" +
-                  "<br>Stream <span id='offline_text'>offline</span></p></div><br><button data-user='" +
+                  "<br>Stream <span class='offline_text'>offline</span></p></div><br><button data-user='" +
                   user_id +
                   "' class='btn btn-secondary btn-sm remove'>Remove streamer</button></div></div>"
               )
@@ -90,7 +93,7 @@ $(document).ready(function() {
                 "<div class='col-sm-8'><p class='streamerInfo'><strong>" +
                 data.stream.channel.display_name +
                 "</strong>" +
-                "<br>Stream <span id='online_text'>online</span>" +
+                "<br>Stream <span class='online_text'>online</span>" +
                 "<br>Playing: " +
                 data.stream.game +
                 "</p></div><br><button data-user='" +
