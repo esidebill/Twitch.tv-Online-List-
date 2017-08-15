@@ -41,7 +41,7 @@ $(document).ready(function() {
             );
             $("#" + user_id)
               .prepend(
-                "<div class='jumbotron stream_offline'>" +
+                "<div class='container stream_offline user_box'>" +
                   "<div class='row'>" +
                   "<div class='col-sm-4'>" +
                   "<a href='https://m.twitch.tv/" +
@@ -77,7 +77,7 @@ $(document).ready(function() {
           );
           $("#" + user_id)
             .prepend(
-              "<div class='jumbotron stream_online'>" +
+              "<div class='container stream_online user_box'>" +
                 "<div class='row'>" +
                 "<div class='col-sm-4'>" +
                 "<a href='https://m.twitch.tv/" +
@@ -135,4 +135,3 @@ $(document).ready(function() {
     }
   });
 });
-
